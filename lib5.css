@@ -1,0 +1,28 @@
+p{
+    color: forestgreen;
+    text-align: center;
+}
+div>ol>li{
+    background-color: burlywood;
+    color: blue;
+    margin: 5px;
+}
+.H{
+    background-color:brown;
+    text-align: center;
+    color: aqua;    
+
+}
+h1,h2{
+    color: red;
+    text-align: center;
+}
+#main{
+    color: gray;
+    ;
+
+}
+
+a:hover{
+    color: darkorange;
+}
