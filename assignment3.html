@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Responsive Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #6EC6FF, #A5D6A7);
+      height: 100vh;
+    }
+    
+    .container {
+      width: 90%;
+      max-width: 450px;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    h2, h3 {
+      color: #333;
+    }
+
+    button {
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 6px;
+      background: #007bff;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #005fcc;
+    }
+
+    .option {
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #f9f9f9;
+      transition: 0.2s;
+    }
+
+    .option:hover {
+      background: #e6f0ff;
+    }
+
+    .option.correct { background: #c8f7c5; }
+    .option.wrong { background: #f7c5c5; }
+
+    #feedback {
+      font-weight: bold;
+    }
+
+    #running-score {
+      text-align: center;
+      font-weight: bold;
+      color: #007bff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <div id="welcome-screen" class="center">
+      <h2> Welcome to the Quiz </h2>
+      <button id="startBtn">Start Quiz</button>
+    </div>
+
+    <div id="quiz-screen" style="display:none;">
+      <h3 id="question-text"></h3>
+
+   
+      <p id="running-score">Score: 0</p>
+
+      <div id="options"></div>
+      <p id="feedback" class="center"></p>
+      <button id="nextBtn" style="display:none;">Next</button>
+    </div>
+
+    <div id="result-screen" class="center" style="display:none;">
+      <h2>Your Score:</h2>
+      <h1 id="final-score"></h1>
+      <p id="message" style="font-size:18px;"></p>
+      <button id="restartBtn">Restart</button>
+    </div>
+
+  </div>
+
+  <script>
+    const questions = [
+      { q: "HTML stands for?", options: ["Hyper Text Markup Language", "High Text Machine Language", "Home Tool Markup Language"], answer: 0 },
+      { q: "CSS is used for styling. (True/False)", options: ["True","False"], answer: 0 },
+      { q: "JavaScript can change HTML content. (True/False)", options: ["True", "False"], answer: 0 },
+      { q: "Which tag creates a paragraph?", options: ["<p>", "<h1>", "<div>"], answer: 0 },
+      { q: "DOM stands for?", options: ["Document Object Model", "Digital Online Model"], answer: 0 }
+    ];
+
+    let index = 0;
+    let score = 0;
+
+    const welcomeScreen = document.getElementById("welcome-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const resultScreen = document.getElementById("result-screen");
+
+    const questionText = document.getElementById("question-text");
+    const optionsBox = document.getElementById("options");
+    const feedback = document.getElementById("feedback");
+    const nextBtn = document.getElementById("nextBtn");
+    const finalScore = document.getElementById("final-score");
+    const message = document.getElementById("message");
+    const runningScore = document.getElementById("running-score");
+
+    document.getElementById("startBtn").addEventListener("click", startQuiz);
+    document.getElementById("restartBtn").addEventListener("click", restartQuiz);
+    nextBtn.addEventListener("click", nextQuestion);
+
+    function startQuiz() {
+      welcomeScreen.style.display = "none";
+      quizScreen.style.display = "block";
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      nextBtn.style.display = "none";
+      feedback.textContent = "";
+      runningScore.textContent = "Score: " + score;
+
+      let q = questions[index];
+      questionText.textContent = (index + 1) + ". " + q.q;
+
+      optionsBox.innerHTML = "";
+      q.options.forEach((opt, i) => {
+        let div = document.createElement("div");
+        div.className = "option";
+        div.textContent = opt;
+        div.addEventListener("click", () => checkAnswer(i, div));
+        optionsBox.appendChild(div);
+      });
+    }
+
+    function checkAnswer(selected, element) {
+      let correct = questions[index].answer;
+
+      document.querySelectorAll(".option").forEach(opt => opt.style.pointerEvents = "none");
+
+      if (selected === correct) {
+        element.classList.add("correct");
+        feedback.textContent = "✔ Correct!";
+        score++;
+      } else {
+        element.classList.add("wrong");
+        feedback.textContent = "✘ Wrong!";
+      }
+
+      runningScore.textContent = "Score: " + score;
+      nextBtn.style.display = "block";
+    }
+
+    function nextQuestion() {
+      index++;
+      if (index < questions.length) {
+        loadQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      quizScreen.style.display = "none";
+      resultScreen.style.display = "block";
+
+      finalScore.textContent = score + " / " + questions.length;
+
+      if (score === questions.length) message.textContent = " Excellent!";
+      else if (score >= questions.length / 2) message.textContent = " Good Job!";
+      else message.textContent = " Try Again!";
+    }
+
+    function restartQuiz() {
+      index = 0;
+      score = 0;
+      resultScreen.style.display = "none";
+      welcomeScreen.style.display = "block";
+    }
+
+  </script>
+</body>
+</html>
