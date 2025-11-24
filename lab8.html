@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Webpage Lab</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .button, .box, .icon {
+            margin: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .button {
+            background: #4CAF50;
+            color: white;
+            font-size: 18px;
+        }
+
+        .box {
+            width: 100px;
+            height: 100px;
+            background: #2196F3;
+        }
+
+        .icon {
+            font-size: 40px;
+            color: #FF5722;
+        }
+
+        .text-block {
+            font-size: 20px;
+            margin: 20px;
+            padding: 10px;
+            display: inline-block;
+            background: #FFC107;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Interactive Webpage Lab</h1>
+
+    <div class="button" onclick="changeColor(this)">Click to Change Color</div>
+    <div class="box" onclick="resizeBox(this)"></div>
+    <div class="text-block" onclick="toggleText(this)">Click Me to Hide/Show</div>
+    <div class="icon" onclick="moveIcon(this)">★</div>
+    <div class="button" onclick="changeBackground()">Change Page Background</div>
+
+    <script>
+        function changeColor(element) {
+            const colors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            element.style.backgroundColor = randomColor;
+        }
+
+        function resizeBox(element) {
+            if (element.style.width === '200px') {
+                element.style.width = '100px';
+                element.style.height = '100px';
+            } else {
+                element.style.width = '200px';
+                element.style.height = '200px';
+            }
+        }
+
+        function toggleText(element) {
+            if (element.style.display === 'none') {
+                element.style.display = 'inline-block';
+            } else {
+                element.style.display = 'none';
+            }
+        }
+
+        function moveIcon(element) {
+            const randomX = Math.floor(Math.random() * 300) - 150;
+            const randomY = Math.floor(Math.random() * 300) - 150;
+            element.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        function changeBackground() {
+            const colors = ['#ffe6e6', '#e6ffe6', '#e6f0ff', '#fff0e6'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            document.body.style.backgroundColor = randomColor;
+        }
+    </script>
+
+</body>
+</html>
