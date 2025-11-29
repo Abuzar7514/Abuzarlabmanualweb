@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Control Panel</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+            background: linear-gradient(135deg, #b3e5fc, #c8e6c9);
+        }
+        h2 {
+            text-align: center;
+        }
+        .panel {
+            width: 350px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .box {
+            width: 150px;
+            height: 150px;
+            margin: 15px auto;
+            background: #eeeeee;
+            border-radius: 10px;
+            transition: 0.3s ease;
+        }
+        button {
+            padding: 10px;
+            margin: 8px;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            background: #42a5f5;
+            color: white;
+            transition: 0.2s;
+        }
+        button:hover {
+            background: #1e88e5;
+        }
+        #resetBtn {
+            background: #ef5350;
+        }
+    </style>
+
+</head>
+<body>
+
+    <h2> Interactive Control Panel </h2>
+
+    <div class="panel">
+        <div class="box" id="box"></div>
+
+        <button id="colorBtn">Change Color</button>
+        <button id="sizeBtn">Resize Box</button>
+        <button id="rotateBtn">Rotate</button>
+        <button id="resetBtn">Reset</button>
+    </div>
+
+    <script>
+        let box = document.getElementById("box");
+
+        function applyAction(callback) {
+            callback();
+        }
+
+        document.getElementById("colorBtn").addEventListener("click", function() {
+            applyAction(() => {
+                box.style.background = "#" + Math.floor(Math.random()*16777215).toString(16);
+            });
+        });
+
+        document.getElementById("sizeBtn").addEventListener("click", function() {
+            applyAction(() => {
+                box.style.width = "200px";
+                box.style.height = "200px";
+            });
+        });
+
+        document.getElementById("rotateBtn").addEventListener("click", function() {
+            applyAction(() => {
+                box.style.transform = "rotate(25deg)";
+            });
+        });
+
+        document.getElementById("resetBtn").addEventListener("click", function() {
+            let action = "reset";
+
+            switch(action) {
+                case "reset":
+                    box.style.width = "150px";
+                    box.style.height = "150px";
+                    box.style.background = "#eeeeee";
+                    box.style.transform = "rotate(0deg)";
+                    break;
+            }
+        });
+    </script>
+
+</body>
+</html>
